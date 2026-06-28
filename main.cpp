@@ -1,48 +1,52 @@
 #include <iostream>
-#include <string>
+#include <string_view>
+enum Direction { North, East, South, West };
 
-std::string EnterName(int person_number)
+constexpr Direction& CalcNewDirection(Direction& dir)
 {
-    std::cout << "Enter name for person " << person_number << ": ";
-    std::string name {};
-    std::getline(std::cin >> std::ws, name);
-    return name;
-}
-
-int EnterAge(int person_number)
-{
-    std::cout << "Enter age for person " << person_number << ": ";
-    int age {};
-    std::cin >> age;
-    return age;
-}
-
-void PrintPersonInfo(std::string_view name_1, int age_1, std::string_view name_2, int age_2)
-{
-    if (age_1 == age_2)
+    switch (dir)
     {
-        std::cout << name_1 << " and " << name_2 << " are the same age.\n";
-    } 
-    else if (age_1 > age_2)
-    {
-        std::cout << name_1 << " is older than " << name_2 << ".\n";
+        case North: dir = East; break;
+        case East: dir = South; break;
+        case South: dir = West; break;
+        case West: dir = North; break;
     }
-    else
-    {
-        std::cout << name_2 << " is older than " << name_1 << ".\n";
-    }
+    return dir;
 }
 
+constexpr std::string_view DirectionToString(Direction dir)
+{
+    switch (dir)
+    {
+        case North: return "North";
+        case East: return "East";
+        case South: return "South";
+        case West: return "West";
+    }
+    
+}
 
-int main() {
+std::ostream& operator<<(std::ostream& out, Direction dir)
+{
+    out << DirectionToString(dir);
+    return out;  
+}
 
-    const std::string kNameOne {EnterName(1)};
-    const std::string kNameTwo {EnterName(2)};
-    const int kAgeOne {EnterAge(1)};
-    const int kAgeTwo {EnterAge(2)};
+Direction& operator++(Direction& dir)
+{
+    std::cout << "Current direction: " << dir << '\n';
+    return CalcNewDirection(dir);
+}
 
-    PrintPersonInfo(kNameOne, kAgeOne, kNameTwo, kAgeTwo);  
+int main ()
+{        
+    Direction dir { North };
+
+    for (int i {}; i < 4; ++i)
+    {
+        ++dir;
+        std::cout << "New direction: " << dir << '\n';
+    }
 
     return 0;
-    
 }
