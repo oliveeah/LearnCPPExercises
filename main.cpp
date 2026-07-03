@@ -1,57 +1,25 @@
 #include <iostream>
-#include <string>
-#include <string_view>
 
-struct Monster 
+template <typename T>
+struct Triad
 {
-    enum MonsterType
-    {
-        ogre,
-		dragon,
-		orc,
-		giant_spider,
-		slime,
-    };
-
-    MonsterType type {};
-    std::string name {};
-    int health {};
+    T x {};
+    T y {};
+    T z {};
 };
 
-constexpr std::string_view getMonsterType (Monster::MonsterType type)
-{
-	switch (type)
-	{
-	case Monster::ogre:          return "Ogre";
-	case Monster::dragon:        return "Dragon";
-	case Monster::orc:           return "Orc";
-	case Monster::giant_spider:  return "Giant Spider";
-	case Monster::slime:         return "Slime";
-	}
+template <typename T>
+Triad(T, T, T) -> Triad<T>;
 
-	return "Unknown";
-} 
-
-std::ostream& operator<< (std::ostream& out, const Monster::MonsterType type)
+template <typename T>
+void foo (const Triad<T>& t)
 {
-    return out << getMonsterType(type);
+    std::cout << t.x << t.y << t.z;
 }
-
-void PrintMonsterInfo(const Monster& monster)
-{
-    std::cout << "Monster Name: " << monster.name <<
-     " Monster HP: " << monster.health <<
-     " Monster Type: " << monster.type << '\n';
-}
-
 
 int main(){
 
-	Monster ogre{ Monster::ogre, "Torg", 145 };
-	Monster slime{ Monster::slime, "Blurp", 23 };    
-
-    PrintMonsterInfo(ogre);
-	PrintMonsterInfo(slime);
-
+    Triad tri{" u3.4fu ", " u2.4fu ", " u44.4fu"};
+    foo(tri);
     return 0;
 }
