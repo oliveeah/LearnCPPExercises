@@ -1,4 +1,6 @@
-#include<iostream>
+#include <iostream>
+#include <string>
+#include <string_view>
 
 struct Monster 
 {
@@ -11,8 +13,8 @@ struct Monster
 		slime,
     };
 
-    const MonsterType type {};
-    const std::string name {};
+    MonsterType type {};
+    std::string name {};
     int health {};
 };
 
@@ -30,14 +32,16 @@ constexpr std::string_view getMonsterType (Monster::MonsterType type)
 	return "Unknown";
 } 
 
-constexpr void PrintMonsterInfo(const Monster& monster)
+std::ostream& operator<< (std::ostream& out, const Monster::MonsterType type)
 {
-    const std::string_view sv {monster.name};
+    return out << getMonsterType(type);
+}
 
-    std::cout << "Monster Name: " << sv <<
+void PrintMonsterInfo(const Monster& monster)
+{
+    std::cout << "Monster Name: " << monster.name <<
      " Monster HP: " << monster.health <<
-     " Monster Type: " << getMonsterType(monster.type) << '\n';
-
+     " Monster Type: " << monster.type << '\n';
 }
 
 
