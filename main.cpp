@@ -1,25 +1,31 @@
 #include <iostream>
 
-template <typename T>
-struct Triad
+struct IntPair
 {
-    T x {};
-    T y {};
-    T z {};
+    int first {};
+    int second {};
+
+    void print()
+    {
+        std::cout << "Pair(" << first << "," << second << ")\n";
+    }
+
+    bool isEqual(const IntPair& intpair)
+    {
+        return (first == intpair.first) && (second == intpair.second);
+    }
 };
-
-template <typename T>
-Triad(T, T, T) -> Triad<T>;
-
-template <typename T>
-void foo (const Triad<T>& t)
-{
-    std::cout << t.x << t.y << t.z;
-}
 
 int main(){
 
-    Triad tri{" u3.4fu ", " u2.4fu ", " u44.4fu"};
-    foo(tri);
+    IntPair ip1 {1, 2};
+    IntPair ip2 {1, 2};
+
+    ip1.print();
+    ip2.print();
+
+    std::cout << (ip1.isEqual(ip2) ? "equal" : "not equal");
+
+    std::cin.get();
     return 0;
 }
