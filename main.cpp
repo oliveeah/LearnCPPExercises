@@ -1,31 +1,18 @@
 #include <iostream>
+#include <type_traits>
 
-struct IntPair
+template<typename T, typename U>
+void foo(T, U)
 {
-    int first {};
-    int second {};
+    std::cout << std::is_same_v<T, U> << '\n';
+}
 
-    void print()
-    {
-        std::cout << "Pair(" << first << "," << second << ")\n";
-    }
-
-    bool isEqual(const IntPair& intpair)
-    {
-        return (first == intpair.first) && (second == intpair.second);
-    }
-};
 
 int main(){
 
-    IntPair ip1 {1, 2};
-    IntPair ip2 {1, 2};
-
-    ip1.print();
-    ip2.print();
-
-    std::cout << (ip1.isEqual(ip2) ? "equal" : "not equal");
-
+    double i {1.0};
+    int h{1};
+    foo<int>(i,h);
     std::cin.get();
     return 0;
 }
