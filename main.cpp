@@ -16,6 +16,8 @@ class Ball
     : Ball{ m_default_color, radius }
     {}
 
+    Ball(const Ball&) = default;
+
     Ball(std::string_view color = m_default_color, double radius= m_default_radius)
     : m_color{color}
     , m_radius{radius}
