@@ -1,38 +1,60 @@
 #include <iostream>
-#include <cmath>
 
-class Point2d
+class Fraction
 {
-private:
-    double m_x {};
-    double m_y {};
+    private:
+    int numerator {};
+    int denominator {};
 
-public:
-    Point2d(double x = 0.0, double y = 0.0)
-    : m_x {x}
-    , m_y {y}
-    {}
+    public:
+    Fraction() : Fraction{0, 1} {}
+
+    Fraction(int num, int denom) : numerator{num}, denominator{denom} {}
+
+    auto getNumerator() const -> int {return numerator;}
+    auto getDenominator() const -> int {return denominator;}
+
+    auto setNumerator(int newNumerator) -> void {numerator = newNumerator;}
+    auto setDenominator(int newDenominator) -> void {denominator = newDenominator;}
 
     auto print() const -> void
     {
-        std::cout << "(" << m_x << ", " << m_y << ")\n";
+        std::cout << numerator << '/' << denominator << '\n';
     }
 
-    auto distanceTo(const Point2d& p2) const -> double
+    auto multiply(const Fraction& multiplier) -> void
     {
-        return std::sqrt((m_x - p2.m_x)*(m_x - p2.m_x) + (m_y - p2.m_y)*(m_y - p2.m_y));
+        numerator *= multiplier.numerator;
+        denominator *= multiplier.denominator;
+
+        std::cout << "New fraction after multiplication: ";
+        print();
     }
 };
 
+auto getFraction() -> Fraction
+{
+    Fraction temp{};
+    int num {};
+    int denom {};
+    std::cout << "Enter a value for numerator: ";
+    std::cin >> num;
+    temp.setNumerator(num);
+    std::cout << "Enter a value for denominator: ";
+    std::cin >> denom;
+    temp.setDenominator(denom);
+    std::cout << '\n';
+    return temp;
+}
+
 auto main() -> int 
 {
-    Point2d first{};
-    Point2d second{ 3.0, 4.0 };
+    Fraction f1{ getFraction() };
+    Fraction f2{ getFraction() };
 
-    first.print();
-    second.print();
+    std::cout << "Your fractions multiplied together: ";
 
-    std::cout << "Distance between two points: " << first.distanceTo(second) << '\n';
-
+    f1.multiply(f2);
+    
     return 0;
 }
