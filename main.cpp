@@ -11,18 +11,12 @@ class Fraction
 
     public:
     explicit Fraction(int num = kDefaultNumerator, int denom = kDefaultDenominator)
-     : m_numerator {num}
-     , m_denominator {denom}
-     {}
+    : m_numerator {num}
+    , m_denominator {denom}
+    {}
 
-    auto getFraction() -> void
-    {
-        std::cout << "Enter a value for numerator: ";
-        std::cin >> m_numerator; 
-        std::cout << "Enter a value for denominator: ";
-        std::cin >> m_denominator;
-        std::cout << '\n';
-    }
+    auto getNumerator() const -> int {return m_numerator;}
+    auto getDenominator() const -> int {return m_denominator;}
 
     auto multiply(const Fraction& multiplier) const -> Fraction
     {
@@ -31,21 +25,31 @@ class Fraction
             m_denominator * multiplier.m_denominator
         };
     }
-
-    auto print() const -> void
-    {
-        std::cout << m_numerator << '/' << m_denominator << '\n';
-    }
 };
+
+auto getFraction() -> Fraction
+{
+    int x {};
+    int y {};
+    std::cout << "Enter a value for numerator: ";
+    std::cin >> x; 
+    std::cout << "Enter a value for denominator: ";
+    std::cin >> y;
+    std::cout << '\n';
+    return Fraction{x,y};
+}
+
+auto print(const Fraction& f) -> void
+{
+    std::cout << f.getNumerator() << '/' << f.getDenominator() << '\n';
+}
 
 auto main() -> int 
 {
-    Fraction f1 {};
-    f1.getFraction();
+    Fraction f1 {getFraction()};
+    Fraction f2 {getFraction()};
 
-    Fraction f2 {};
-    f2.getFraction();
+    print(f1.multiply(f2));
 
-    f1.multiply(f2).print();
     return 0;
 }
