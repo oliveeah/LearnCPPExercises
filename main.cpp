@@ -13,7 +13,10 @@ class Fraction
     explicit Fraction(int num = kDefaultNumerator, int denom = kDefaultDenominator)
     : m_numerator {num}
     , m_denominator {denom}
-    {}
+    {
+        if (denom == 0)
+        throw std::runtime_error("Denominator cannot be zero");
+    }
 
     auto getNumerator() const -> int {return m_numerator;}
     auto getDenominator() const -> int {return m_denominator;}
@@ -46,8 +49,8 @@ auto print(const Fraction& f) -> void
 
 auto main() -> int 
 {
-    Fraction f1 {getFraction()};
-    Fraction f2 {getFraction()};
+    auto f1 {getFraction()};
+    auto f2 {getFraction()};
 
     print(f1.multiply(f2));
 
