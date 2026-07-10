@@ -3,58 +3,49 @@
 class Fraction
 {
     private:
-    int numerator {};
-    int denominator {};
+    static constexpr int kDefaultNumerator {0};
+    static constexpr int kDefaultDenominator {1};
+
+    int m_numerator {};
+    int m_denominator {};
 
     public:
-    Fraction() : Fraction{0, 1} {}
+    explicit Fraction(int num = kDefaultNumerator, int denom = kDefaultDenominator)
+     : m_numerator {num}
+     , m_denominator {denom}
+     {}
 
-    Fraction(int num, int denom) : numerator{num}, denominator{denom} {}
+    auto getFraction() -> void
+    {
+        std::cout << "Enter a value for numerator: ";
+        std::cin >> m_numerator; 
+        std::cout << "Enter a value for denominator: ";
+        std::cin >> m_denominator;
+        std::cout << '\n';
+    }
 
-    auto getNumerator() const -> int {return numerator;}
-    auto getDenominator() const -> int {return denominator;}
-
-    auto setNumerator(int newNumerator) -> void {numerator = newNumerator;}
-    auto setDenominator(int newDenominator) -> void {denominator = newDenominator;}
+    auto multiply(const Fraction& multiplier) const -> Fraction
+    {
+        return Fraction {
+            m_numerator * multiplier.m_numerator,
+            m_denominator * multiplier.m_denominator
+        };
+    }
 
     auto print() const -> void
     {
-        std::cout << numerator << '/' << denominator << '\n';
-    }
-
-    auto multiply(const Fraction& multiplier) -> void
-    {
-        numerator *= multiplier.numerator;
-        denominator *= multiplier.denominator;
-
-        std::cout << "New fraction after multiplication: ";
-        print();
+        std::cout << m_numerator << '/' << m_denominator << '\n';
     }
 };
 
-auto getFraction() -> Fraction
-{
-    Fraction temp{};
-    int num {};
-    int denom {};
-    std::cout << "Enter a value for numerator: ";
-    std::cin >> num;
-    temp.setNumerator(num);
-    std::cout << "Enter a value for denominator: ";
-    std::cin >> denom;
-    temp.setDenominator(denom);
-    std::cout << '\n';
-    return temp;
-}
-
 auto main() -> int 
 {
-    Fraction f1{ getFraction() };
-    Fraction f2{ getFraction() };
+    Fraction f1 {};
+    f1.getFraction();
 
-    std::cout << "Your fractions multiplied together: ";
+    Fraction f2 {};
+    f2.getFraction();
 
-    f1.multiply(f2);
-    
+    f1.multiply(f2).print();
     return 0;
 }
