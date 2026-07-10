@@ -1,47 +1,38 @@
 #include <iostream>
-#include <string>
-#include <string_view>
+#include <cmath>
 
-class Ball
-{    
-    private:
-    static constexpr std::string_view m_default_color {"black"};
-    static constexpr double m_default_radius {10.0};
+class Point2d
+{
+private:
+    double m_x {};
+    double m_y {};
 
-    std::string m_color;
-    double m_radius;
-
-    public:
-    Ball(double radius)
-    : Ball{ m_default_color, radius }
+public:
+    Point2d(double x = 0.0, double y = 0.0)
+    : m_x {x}
+    , m_y {y}
     {}
 
-    Ball(const Ball&) = default;
+    auto print() const -> void
+    {
+        std::cout << "(" << m_x << ", " << m_y << ")\n";
+    }
 
-    Ball(std::string_view color = m_default_color, double radius= m_default_radius)
-    : m_color{color}
-    , m_radius{radius}
-    {}
-
-    auto getColor() const -> const std::string& {return m_color;}
-    auto getRadius() const -> double {return m_radius;}
-
+    auto distanceTo(const Point2d& p2) const -> double
+    {
+        return std::sqrt((m_x - p2.m_x)*(m_x - p2.m_x) + (m_y - p2.m_y)*(m_y - p2.m_y));
+    }
 };
 
-auto printBall(const Ball& ball) -> void
+auto main() -> int 
 {
-    std::cout << "Ball(" << ball.getColor() << ", " << ball.getRadius() << ")\n";
-}
+    Point2d first{};
+    Point2d second{ 3.0, 4.0 };
 
-int main(){
+    first.print();
+    second.print();
 
-    Ball def{};
-    Ball blue{ "blue" };
-    Ball twenty{ 20.0 };
-    Ball blueTwenty{ "blue", 20.0 };
-    printBall(def);
-    printBall(blue);
-    printBall(twenty);
-    printBall(blueTwenty);
+    std::cout << "Distance between two points: " << first.distanceTo(second) << '\n';
+
     return 0;
 }
