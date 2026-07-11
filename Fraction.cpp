@@ -16,3 +16,8 @@ auto Fraction::multiply(const Fraction& multiplier) const -> Fraction
         m_denominator * multiplier.m_denominator
     };
 }
+
+auto Fraction::operator*(const Fraction& multiplier) const -> Fraction
+{
+    return multiply(multiplier);
+}

@@ -23,7 +23,7 @@ auto main() -> int
     auto f1 {getFraction()};
     auto f2 {getFraction()};
 
-    print(f1.multiply(f2));
+    print(f1 * f2);
 
     return 0;
 }

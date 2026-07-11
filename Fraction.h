@@ -17,6 +17,8 @@ public:
     auto getDenominator() const -> int {return m_denominator;}
 
     auto multiply(const Fraction& multiplier) const -> Fraction;
+
+    auto operator*(const Fraction& multiplier) const -> Fraction;
 };  
 
 #endif // FRACTION_H
