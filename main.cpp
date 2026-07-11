@@ -1,34 +1,5 @@
 #include <iostream>
-
-class Fraction
-{
-    private:
-    static constexpr int kDefaultNumerator {0};
-    static constexpr int kDefaultDenominator {1};
-
-    int m_numerator {};
-    int m_denominator {};
-
-    public:
-    explicit Fraction(int num = kDefaultNumerator, int denom = kDefaultDenominator)
-    : m_numerator {num}
-    , m_denominator {denom}
-    {
-        if (denom == 0)
-        throw std::runtime_error("Denominator cannot be zero");
-    }
-
-    auto getNumerator() const -> int {return m_numerator;}
-    auto getDenominator() const -> int {return m_denominator;}
-
-    auto multiply(const Fraction& multiplier) const -> Fraction
-    {
-        return Fraction {
-            m_numerator * multiplier.m_numerator,
-            m_denominator * multiplier.m_denominator
-        };
-    }
-};
+#include "Fraction.h"
 
 auto getFraction() -> Fraction
 {
