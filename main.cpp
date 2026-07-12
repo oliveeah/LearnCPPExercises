@@ -1,29 +1,18 @@
+#include "Triad.h"
+
 #include <iostream>
-#include "Fraction.h"
+#include <string>
 
-auto getFraction() -> Fraction
+int main()
 {
-    int x {};
-    int y {};
-    std::cout << "Enter a value for numerator: ";
-    std::cin >> x; 
-    std::cout << "Enter a value for denominator: ";
-    std::cin >> y;
-    std::cout << '\n';
-    return Fraction{x,y};
-}
+	Triad<int, int, int> t1{ 1, 2, 3 };
+	t1.print();
+	std::cout << '\n';
+	std::cout << t1.first() << '\n';
 
-auto print(const Fraction& f) -> void
-{
-    std::cout << f.getNumerator() << '/' << f.getDenominator() << '\n';
-}
-
-auto main() -> int 
-{
-    auto f1 {getFraction()};
-    auto f2 {getFraction()};
-
-    print(f1 * f2);
-
+	using namespace std::literals::string_literals;
+	const Triad t2{ 1, 2.3, "Hello"s };
+	t2.print();
+	std::cout << '\n';
     return 0;
 }
