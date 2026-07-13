@@ -2,6 +2,7 @@
 #define TRIAD_H
 
 #include <iostream>
+#include <string>
 
 template <typename T, typename U, typename V>
 class Triad
@@ -23,10 +24,11 @@ public:
     auto third() const -> const V& { return m_third; }
 
     auto print() const -> void;
+
 };
 
 template<typename T, typename U, typename V>
-void Triad<T, U, V>::print() const
+auto Triad<T, U, V>::print() const -> void
 {
     std::cout << "[" << m_first << ", " << m_second << ", " << m_third << "]";
 }
