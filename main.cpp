@@ -1,39 +1,65 @@
-#include <chrono>
-#include <random>
 #include <iostream>
 
-class Random
+class Vector3d;
+
+class Point3d
 {
-	private:
-	static std::mt19937 generate()
+private:
+	double m_x{};
+	double m_y{};
+	double m_z{};
+
+public:
+	Point3d(double x, double y, double z)
+		: m_x{x}, m_y{y}, m_z{z}
+	{ }
+
+	void print() const
 	{
-		std::random_device rd{};
-
-		// Create seed_seq with high-res clock and 7 random numbers from std::random_device
-		std::seed_seq ss{
-			static_cast<std::seed_seq::result_type>(std::chrono::steady_clock::now().time_since_epoch().count()),
-				rd(), rd(), rd(), rd(), rd(), rd(), rd() };
-
-		return std::mt19937{ ss };
+		std::cout << "Point(" << m_x << ", " << m_y << ", " << m_z << ")\n";
 	}
 
-	static inline std::mt19937 mt{ generate() }; // generates a seeded std::mt19937 and copies it into our global object
+	void moveByVector(const Vector3d& v);
 
-
-	public:
-	static int get(int min, int max)
-	{
-		return std::uniform_int_distribution{min, max}(mt);
-	}
 };
+
+class Vector3d
+{
+private:
+	double m_x{};
+	double m_y{};
+	double m_z{};
+
+public:
+	Vector3d(double x, double y, double z)
+		: m_x{x}, m_y{y}, m_z{z}
+	{
+	}
+
+	void print() const
+	{
+		std::cout << "Vector(" << m_x << ", " << m_y << ", " << m_z << ")\n";
+	}
+
+	friend void Point3d::moveByVector(const Vector3d& v);
+
+};
+
+void Point3d::moveByVector(const Vector3d& v)
+{
+	m_x += v.m_x;
+	m_y += v.m_y;
+	m_z += v.m_z;
+}
 
 int main()
 {
-	// Print a bunch of random numbers
-	for (int count{ 1 }; count <= 10; ++count)
-		std::cout << Random::get(1, 6) << '\t';
+	Point3d p { 1.0, 2.0, 3.0 };
+	Vector3d v { 2.0, 2.0, -3.0 };
 
-	std::cout << '\n';
+	p.print();
+	p.moveByVector(v);
+	p.print();
 
 	return 0;
 }
