@@ -5,6 +5,7 @@
 int main()
 {
     Monster m2 {MonsterGenerator::generateMonster()};
+    std::cout << m2;    Monster m2 {MonsterGenerator::generateMonster()};
     std::cout << m2;
     return 0;
 }
