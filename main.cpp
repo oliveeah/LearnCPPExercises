@@ -1,12 +1,14 @@
 #include <iostream>
 #include <vector>
 
-
 int main()
 {
-    std::vector<int> vec = {1, 2, 3, 4, 5};
-    std::cout << "vec size: " << std::size(vec) << '\n';
-    std::cout << "vec at 1: " << vec.at(1) << '\n';
+    std::vector arr{ 4, 6, 7, 3, 8, 2, 1, 9 };
+    std::cout << "|";
+    for(std::size_t i {}; i < arr.size(); ++i)
+    {
+        std::cout << arr[i] << "|";
+    }
 
     return 0;
 }
