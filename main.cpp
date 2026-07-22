@@ -28,6 +28,27 @@ auto searchArray(const std::vector<T>& arr, T number) -> std::optional<std::size
 }
 
 template <typename T>
+auto findLargestNumber(const std::vector<T>& arr) -> T
+{
+    const auto size { arr.size() };
+
+    if (size == 0)
+    {
+        return T {};
+    }
+    
+    T largest { arr[0] };
+    for (auto i {1uz}; i < size; ++i)
+    {
+        if (arr[i] > largest)
+        {
+            largest = arr[i];
+        }
+    }
+    return largest;
+}
+
+template <typename T>
 auto askUserForNumber(const char* prompt, T lower, T upper) -> T
 {
     T number{};
@@ -51,18 +72,14 @@ auto askUserForNumber(const char* prompt, T lower, T upper) -> T
 
 int main()
 {
-    std::vector arr{ 4.4, 6.6, 7.7, 3.3, 8.8, 2.2, 1.1, 9.9 };
-    const auto number { askUserForNumber("Please enter a number between 1 and 9 ", 1.0, 9.0) };
+    std::vector data1 { 84, 92, 76, 81, 56 };
+    std::cout << findLargestNumber(data1) << '\n';
 
-    auto result { searchArray(arr, number) };
-    if(result)
-    {
-        std::cout << "The number " << number << " is found at index " << *result << ".\n";
-    }
-    else
-    {
-        std::cout << "The number " << number << " is not found in the array.\n";
-    }
+    std::vector data2 { -13.0, -26.7, -105.5, -14.8 };
+    std::cout << findLargestNumber(data2) << '\n';
+
+    std::vector<int> data3 { };
+    std::cout << findLargestNumber(data3) << '\n';
     //printArray(arr); // use function template to print array
 
     return 0;
