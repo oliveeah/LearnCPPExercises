@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <optional>
+#include <limits>
 
 template <typename T>
 auto printArray(const std::vector<T>& arr) -> void
@@ -13,7 +14,7 @@ auto printArray(const std::vector<T>& arr) -> void
 }
 
 template <typename T>
-auto searchArray(const std::vector<T>& arr, T& number) -> std::optional<std::size_t>
+auto searchArray(const std::vector<T>& arr, T number) -> std::optional<std::size_t>
 {
     const auto size { arr.size() };
     for (auto i {0uz}; i < size; ++i)
@@ -26,30 +27,32 @@ auto searchArray(const std::vector<T>& arr, T& number) -> std::optional<std::siz
     return std::nullopt;
 }
 
-auto askUserForNumber() -> int
+template <typename T>
+auto askUserForNumber(const char* prompt, T lower, T upper) -> T
 {
-    int number {};
-    std::cout << "Enter a number between 1 and 9 inclusive: ";
-    do {
+    T number{};
+
+    do
+    {
+        std::cout << prompt;
         std::cin >> number;
+
         if(!std::cin)
         {
-            std::cout << "Invalid input. Please enter a number between 1 and 9 inclusive.\n";
             std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            continue;
         }
-    }
-    while(number < 1 || number > 9);
-    
+
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    } while(number < lower || number > upper);
+
     return number;
 }
 
-
 int main()
 {
-    std::vector arr{ 4, 6, 7, 3, 8, 2, 1, 9 };
-    int number { askUserForNumber() };
+    std::vector arr{ 4.4, 6.6, 7.7, 3.3, 8.8, 2.2, 1.1, 9.9 };
+    const auto number { askUserForNumber("Please enter a number between 1 and 9 ", 1.0, 9.0) };
 
     auto result { searchArray(arr, number) };
     if(result)
