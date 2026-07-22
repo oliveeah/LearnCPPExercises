@@ -1,32 +1,23 @@
 #include <iostream>
-#include <string>
-#include <string_view>
 #include <vector>
+#include <cassert>
+#include <cstdint>
 
-template <typename T>
-auto isValueInArray(const std::vector<T>& arr, const T& value) -> bool
-{
-    for(const auto& element : arr)
-    {
-        if(element == value) {
-            std::cout << "Found: " << element << '\n';
-            return true;
-        }
-    }
-    std::cout << "Name not found." << '\n';
-    return false;
+namespace Animals {
+    enum Pets : uint8_t {
+        chicken,
+        dog,
+        cat,
+        elephant,
+        duck,
+        snake,
+        max_pets
+    };
+
+    const std::vector numberOfLegs = {2, 4, 4, 4, 2, 0};
 }
 
 int main() {
-    const std::vector<std::string_view> names {"Alex", "Betty", "Caroline", "Dave", "Emily", "Fred", "Greg", "Holly"};
-    
-    std::string user_input;
-    std::cout << "Enter a name to search for: ";
-    std::getline(std::cin, user_input);
-
-    (isValueInArray<std::string_view>(names, user_input)) 
-        ? std::cout << "The name is in the array." << '\n'
-        : std::cout << "The name is not in the array." << '\n';
-
-
+    assert(Animals::numberOfLegs.size() == Animals::max_pets && "Number of legs array size does not match the number of pets.");
+    std::cout << "Elephant has: " << Animals::numberOfLegs[Animals::elephant] << " legs." << '\n';
 }
