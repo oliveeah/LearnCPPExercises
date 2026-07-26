@@ -1,23 +1,75 @@
 #include <iostream>
 #include <vector>
-#include <cassert>
-#include <cstdint>
 
-namespace Animals {
-    enum Pets : uint8_t {
-        chicken,
-        dog,
-        cat,
-        elephant,
-        duck,
-        snake,
-        max_pets
+namespace {
+    enum class StackOp
+    {
+        Push,
+        Pop,
+        Peek
     };
+}
 
-    const std::vector numberOfLegs = {2, 4, 4, 4, 2, 0};
+template <typename T>
+auto printStack(StackOp op, const std::vector<T>& stack) -> void
+{   
+    switch(op)
+    {
+        case StackOp::Push:
+            std::cout << "Push: ";
+            break;
+        case StackOp::Pop:
+            std::cout << "Pop: ";
+            break;
+        case StackOp::Peek:
+            std::cout << "Peek: ";
+            break;
+    }
+
+    std::cout << "(Stack:";
+
+    if(stack.empty())
+    {
+        std::cout << " empty";
+    }
+    else
+    {
+        for(const auto& i : stack)
+        {
+            std::cout << ' ' << i;
+        }
+    }
+    std::cout << ")\n";
+}
+
+template <typename T>
+auto popStack(std::vector<T>& stack) -> void
+{
+    if(!stack.empty())
+    {
+        stack.pop_back();
+        printStack(StackOp::Pop, stack);
+    }
+}
+
+template <typename T>
+auto pushStack(std::vector<T>& stack, T val) -> void
+{
+    stack.push_back(val);
+    printStack(StackOp::Push, stack);
 }
 
 int main() {
-    assert(Animals::numberOfLegs.size() == Animals::max_pets && "Number of legs array size does not match the number of pets.");
-    std::cout << "Elephant has: " << Animals::numberOfLegs[Animals::elephant] << " legs." << '\n';
+    std::vector<int> stack {};
+
+    pushStack(stack, 1);
+    pushStack(stack, 2);
+    pushStack(stack, 3);
+    popStack(stack);
+    pushStack(stack, 4);
+    popStack(stack);
+    popStack(stack);
+    popStack(stack);
+
+    return 0;
 }
