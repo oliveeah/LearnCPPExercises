@@ -1,12 +1,29 @@
 #include <iostream>
 #include <vector>
-#include <string_view>
+#include <cassert>
+
+namespace Items
+{
+    enum Type
+    {
+        Health_Potion,
+        Torch,
+        Arrow,
+        Max_Items
+    };
+
+}
+
+auto countNumberOfItems(const std::vector<int>& inventory) -> int
+{
+    return std::ssize(inventory);
+}
 
 int main() {
 
-    std::vector evenNumbers { 2, 4, 6, 8, 10 };
-    const std::vector otherNumberss { 1.2, 3.4, 5.6, 7.8 };
-    const std::vector<std::string_view> names { "Alice", "Bob", "Charlie" };
+    std::vector inventory { 1, 5, 10 };
 
+    assert(countNumberOfItems(inventory) == Items::Max_Items && "Inventory size does not match the number of item types.");
+    std::cout << "inventory size: " << countNumberOfItems(inventory) << std::endl;
     return 0;
 }
