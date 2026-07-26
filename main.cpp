@@ -9,7 +9,7 @@ namespace {
         Peek
     };
 }
-
+    
 template <typename T>
 auto printStack(StackOp op, const std::vector<T>& stack) -> void
 {   
@@ -53,7 +53,7 @@ auto popStack(std::vector<T>& stack) -> void
 }
 
 template <typename T>
-auto pushStack(std::vector<T>& stack, T val) -> void
+auto pushStack(std::vector<T>& stack, T& val) -> void
 {
     stack.push_back(val);
     printStack(StackOp::Push, stack);
