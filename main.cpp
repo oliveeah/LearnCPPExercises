@@ -15,7 +15,7 @@ auto findMinMaxIndices(const std::vector<T> &vec) -> std::pair<std::size_t, std:
     const auto size{vec.size()};
     auto smallestIndex{0uz}, largestIndex{0uz};
 
-    for (auto i{1uz}; i < vec.size(); ++i)
+    for (auto i{1uz}; i < size; ++i)
     {
         if (vec[i] < vec[smallestIndex])
         {
@@ -49,18 +49,12 @@ auto createVector() -> std::optional<std::vector<T>>
 {
     std::vector<T> vec{};
     T input{};
-    bool sentinelEntered{false};
 
     std::cout << "Enter numbers to add (use -1 to stop): ";
 
-    while (sentinelEntered == false)
+    while (true)
     {
         std::cin >> input;
-        if (input == T{-1})
-        {
-            sentinelEntered = true;
-            break;
-        }
 
         if (!std::cin)
         {
@@ -68,6 +62,10 @@ auto createVector() -> std::optional<std::vector<T>>
             std::cin.clear();                                                   // Clear the error flag
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
             continue;
+        }
+        if (input == T{-1})
+        {
+            break;
         }
 
         vec.push_back(input);
