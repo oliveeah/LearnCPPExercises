@@ -9,6 +9,7 @@ auto findMinMaxIndices (const std::vector<T>& vec) -> std::pair<std::size_t, std
         throw std::invalid_argument("Vector is empty");
     }
 
+    const auto size { vec.size() };
     auto smallestIndex { 0uz }, largestIndex { 0uz };
 
     for (auto i {1uz}; i < vec.size(); ++i) {
