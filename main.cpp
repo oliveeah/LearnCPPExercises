@@ -1,29 +1,30 @@
-#include <array>
 #include <iostream>
+#include <string_view>
+#include <array>
 
-template <typename T, std::size_t N>
-auto printArray(const std::array<T, N> &arr) -> void
+struct Item
 {
-    std::cout << "The array (";
-    const auto length{arr.size()};
-    for (auto i{0uz}; i < length; ++i)
+    std::string_view name{};
+    int gold{};
+};
+
+template <std::size_t N>
+auto printStock(const std::array<Item, N> &items) -> void
+{
+    for (const auto &item : items)
     {
-        std::cout << arr[i];
-        if (i < length - 1)
-        {
-            std::cout << ", ";
-        }
+        std::cout << item.name << ": " << item.gold << " gold\n";
     }
-    std::cout << ") has " << "length " << length << '\n';
 }
 
 int main()
 {
-    constexpr std::array arr1{1, 4, 9, 16};
-    printArray(arr1);
-
-    constexpr std::array arr2{'h', 'e', 'l', 'l', 'o'};
-    printArray(arr2);
+    constexpr std::array<Item, 4> items{
+        {{"Sword", 5},
+         {"Dagger", 3},
+         {"Club", 2},
+         {"Spear", 7}}};
+    printStock(items);
 
     return 0;
 }
