@@ -8,7 +8,7 @@
 
 namespace Animal
 {
-    enum Type : uint8_t
+    enum Type
     {
         chicken,
         dog,
@@ -26,7 +26,9 @@ namespace Animal
         std::string_view sound{};
     };
 
-    constexpr std::array<Data, static_cast<std::size_t>(Type::max_animals)> animalData{
+    constexpr auto animalCount{static_cast<std::size_t>(Type::max_animals)};
+
+    constexpr std::array<Data, animalCount> animalData{
         {{2, "chicken", "cluck"},
          {4, "dog", "woof"},
          {4, "cat", "meow"},
@@ -39,12 +41,12 @@ namespace Animal
         return animalData[static_cast<std::size_t>(type)];
     }
 
-    constexpr auto printAnimalData(const Data &data) -> void
+    auto printAnimalData(const Data &data) -> void
     {
         std::cout << "A " << data.name << " has " << data.numberOfLegs << " legs and says " << data.sound << ".\n";
     }
 
-    constexpr auto isAnimal(std::string_view name) -> std::optional<Type>
+    constexpr auto isAnimalName(std::string_view name) -> std::optional<Type>
     {
         const auto size{animalData.size()};
         for (auto i{0uz}; i < size; ++i)
@@ -56,6 +58,8 @@ namespace Animal
         }
         return std::nullopt;
     }
+
+    static_assert(animalData.size() == animalCount, "Animal data size does not match the number of animal types.");
 }
 
 auto getAnimalFromUser() -> Animal::Type
@@ -75,13 +79,11 @@ auto getAnimalFromUser() -> Animal::Type
             continue;
         }
 
-        if (!Animal::isAnimal(input))
+        if (auto animal{Animal::isAnimalName(input)})
         {
-            std::cerr << "Invalid animal type. Please enter a valid animal: ";
-            continue;
+            return *animal;
         }
-
-        return *Animal::isAnimal(input);
+        std::cerr << "Invalid animal type. Please enter a valid animal: ";
     }
 }
 
