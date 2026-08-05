@@ -89,6 +89,11 @@ auto getAnimalFromUser() -> Animal::Type
 
 int main()
 {
+    int array[]{
+        1, 2};
+    int i = 1;
+    std::cout << std::size(array) << std::endl;
+    std::cout << sizeof(i) << std::endl;
     Animal::printAnimalData(Animal::getAnimalData(getAnimalFromUser()));
     return 0;
 }
