@@ -3,13 +3,27 @@
 
 auto foo(const char *str) -> void
 {
-    const char *start{str};
-    const char *end{str + std::strlen(str) - 1};
-    for (const char *p{start}; p <= end; ++p)
+    if (str == nullptr)
     {
-        std::cout << *p;
+        std::cerr << "Empty string\n";
+        return;
     }
-    std::cout << std::endl;
+
+    const auto len{std::strlen(str)};
+
+    if (len == 0)
+    {
+        std::cerr << "Empty string\n";
+        return;
+    }
+
+    const char *end{str + len};
+
+    for (const char *ptr{--end}; ptr >= str; --ptr)
+    {
+        std::cout << *ptr;
+    }
+    std::cout << '\n';
 }
 
 int main()
