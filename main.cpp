@@ -3,6 +3,7 @@
 #include <array>
 #include <algorithm> // for std::shuffle
 #include "Random.h"
+#include <cassert>
 struct Card
 {
     enum Rank
@@ -94,9 +95,9 @@ struct Card
         }
     }
 
-    static int card_value(Card &card)
+    int card_value() const
     {
-        switch (card.rank)
+        switch (rank)
         {
         case rank_2:
             return 2;
@@ -128,7 +129,7 @@ struct Card
 
     friend std::ostream &operator<<(std::ostream &out, const Card &card)
     {
-        out << rank_string(card.rank) << suit_string(card.suit);
+        out << card.rank_string(card.rank) << card.suit_string(card.suit);
         return out;
     }
 };
@@ -137,22 +138,23 @@ class Deck
 {
 private:
     std::array<Card, 52> cards{};
-    int cards_dealt{};
+    std::size_t cards_dealt{};
 
 public:
     Deck()
     {
-        int index{};
+        std::size_t index{};
         for (auto suit : Card::all_suits)
             for (auto rank : Card::all_ranks)
             {
-                cards[static_cast<std::size_t>(index++)] = Card{rank, suit};
+                cards[index++] = Card{rank, suit};
             }
     }
 
-    auto dealACard() -> Card &
+    auto dealACard() -> Card
     {
-        return cards[static_cast<std::size_t>(cards_dealt++)];
+        assert(cards_dealt != 52 && "Deck::dealACard ran out of cards");
+        return cards[cards_dealt++];
     }
 
     auto shuffle() -> void
