@@ -15,7 +15,6 @@
                 "-fsanitize=address",
                 "-fno-omit-frame-pointer",
                 "${workspaceFolder}\\main.cpp",
-                "${workspaceFolder}\\PotionShop.cpp",
                 "-o",
                 "${workspaceFolder}\\main.exe"
             ],
