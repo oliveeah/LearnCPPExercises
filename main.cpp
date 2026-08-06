@@ -1,33 +1,11 @@
 #include <iostream>
-#include <cstring>
-
-auto foo(const char *str) -> void
-{
-    if (str == nullptr)
-    {
-        std::cerr << "Empty string\n";
-        return;
-    }
-
-    const auto len{std::strlen(str)};
-
-    if (len == 0)
-    {
-        std::cerr << "Empty string\n";
-        return;
-    }
-
-    const char *end{str + len};
-
-    for (const char *ptr{--end}; ptr >= str; --ptr)
-    {
-        std::cout << *ptr;
-    }
-    std::cout << '\n';
-}
+#include "PotionShop.h"
 
 int main()
 {
-    foo("Hello, World!");
+    int wallet{100};
+    PotionShop shop;
+    shop.buyPotion(wallet);
+
     return 0;
 }
