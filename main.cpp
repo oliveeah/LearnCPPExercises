@@ -1,7 +1,9 @@
 #include <iostream>
 #include <functional>
-
-using ArithmeticFunction = std::function<int(int, int)>;
+namespace
+{
+    using ArithmeticFunction = std::function<int(int, int)>;
+}
 
 int getInteger()
 {
