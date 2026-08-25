@@ -1,78 +1,71 @@
 #include <iostream>
-#include <limits>
+#include <functional>
 
-enum Operation
-{
-    ADD,
-    SUBTRACT,
-    MULTIPLY,
-    DIVIDE
-};
+using ArithmeticFunction = std::function<int(int, int)>;
 
-void clearInputStream()
+int getInteger()
 {
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cout << "Enter an integer: ";
+    int x{};
+    std::cin >> x;
+    return x;
 }
 
-int getInt()
-{
-    int num{};
-    while (true)
-    {
-        std::cout << "Enter an integer: ";
-        std::cin >> num;
-        if (!std::cin)
-        {
-            clearInputStream();
-            std::cout << "Invalid input. Please enter an integer.\n";
-        }
-        else
-        {
-            clearInputStream();
-            return num;
-        }
-    }
-}
-
-Operation getOperation()
+char getOperation()
 {
     char op{};
-    while (true)
+
+    do
     {
-        std::cout << "Get operation (*, + , -, /): ";
+        std::cout << "Enter an operation ('+', '-', '*', '/'): ";
         std::cin >> op;
-        if (!std::cin)
-        {
-            clearInputStream();
-            std::cout << "Invalid input. Please enter a valid operation.\n";
-        }
-        else if (op == '+' || op == '-' || op == '*' || op == '/')
-        {
-            clearInputStream();
-            switch (op)
-            {
-            case '+':
-                return ADD;
-            case '-':
-                return SUBTRACT;
-            case '*':
-                return MULTIPLY;
-            case '/':
-                return DIVIDE;
-            }
-        }
-        else
-        {
-            clearInputStream();
-            std::cout << "Invalid input. Please enter a valid operation.\n";
-        }
-    }
+    } while (op != '+' && op != '-' && op != '*' && op != '/');
+
+    return op;
 }
+
+int add(int x, int y)
+{
+    return x + y;
+}
+int subtract(int x, int y)
+{
+    return x - y;
+}
+int multiply(int x, int y)
+{
+    return x * y;
+}
+int divide(int x, int y)
+{
+    return x / y;
+}
+
+ArithmeticFunction getArithmeticFunction(char op)
+{
+    switch (op)
+    {
+    case '+':
+        return &add;
+    case '-':
+        return &subtract;
+    case '*':
+        return &multiply;
+    case '/':
+        return &divide;
+    }
+    return nullptr;
+}
+
 int main()
 {
-    const int num1{getInt()};
-    const int num2{getInt()};
-    const Operation op{getOperation()};
+    int x{getInteger()};
+    char op{getOperation()};
+    int y{getInteger()};
+
+    int result{getArithmeticFunction(op)(x, y)};
+    if (result)
+        std::cout << x << " " << op << " " << y << " = " << result << std::endl;
+
     return 0;
 }
