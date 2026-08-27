@@ -26,7 +26,7 @@ std::array<Student, 8> arr{
 auto i { std::max_element(
   arr.begin(),
    arr.end(),
-   [](const Student& x, const Student& y)
+   [](const auto& x, const auto& y)
    {
     return x.points < y.points;
    }
