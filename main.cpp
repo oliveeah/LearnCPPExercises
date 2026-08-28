@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <vector>
+#include <cstdlib>
+#include <cmath>
 
 class SquareGame
 {
@@ -65,16 +67,8 @@ public:
 
     auto FindClosestNumber(int guess) -> int
     {
-        int closest{numbers[0]};
-        for (const auto &number : numbers)
-        {
-            if (std::abs(number - guess) < std::abs(closest - guess))
-            {
-                closest = number;
-            }
-        }
-
-        return closest;
+        return *std::min_element(numbers.begin(), numbers.end(), [guess](int a, int b)
+                                 { return std::abs(a - guess) < std::abs(b - guess); });
     }
 
     auto Guess() -> bool
