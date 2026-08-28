@@ -1,33 +1,33 @@
-#include <algorithm>
-#include <array>
-#include <iostream>
-#include <string_view>
+#include "Random.h"
 
-bool print()
-{
-    std::cout << "print called";
-    return true;
-}
+#include <iostream>
+#include <vector>
 
 int main()
 {
-    // Print a value and count how many times @print has been called.
-    auto print_{
-        [](auto value)
-        {
-            static int callCount{0};
-            std::cout << callCount++ << ": " << value << '\n';
-        }};
+    std::cout << "Enter a number to start at: ";
+    int start{};
+    std::cin >> start;
 
-    print_("hello"); // 0: hello
-    print_("world"); // 1: world
+    std::cout << "How many numbers to generate?: ";
+    int count{};
+    std::cin >> count;
 
-    bool (*fnPtr)(){print}; // Function pointer to the print function
+    const int multiplier{Random::get(2, 4)}; // generate a random number between 2 and 4
+    std::cout << "Multiplier: " << multiplier << '\n';
 
-    print_(1); // 0: 1
-    print_(2); // 1: 2
+    std::vector<int> numbers{};
 
-    print_("ding dong"); // 2: ding dong
-    fnPtr();             // Call the print function through the function pointer
+    for (int i{}, next{start}; i < count; ++i)
+    {
+        numbers.push_back((next * next) * multiplier);
+        ++next;
+        std::cout << "Generated number: " << numbers.back() << '\n';
+    }
+
+    std::cout << "I generated " << numbers.size()
+              << " numbers. Do you know what each number is after multiplying by "
+              << multiplier << "?" << '\n';
+
     return 0;
 }
