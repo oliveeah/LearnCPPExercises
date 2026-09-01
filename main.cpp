@@ -1,37 +1,61 @@
-#include <iostream>
-#include <vector>
-#include <cmath>
+#include <string>
 using namespace std;
-int guessVal(int num);
+#include <iostream>
+
 class Solution
 {
 public:
-    int guessNumber(int n)
+    auto getValueFromSymbol(char currChar) -> int
     {
-        int MED{n / 2};
-        int UB{n}, LB{1};
-        while (true)
+        int returnValue{};
+        switch (currChar)
         {
-            switch (int x = guessVal(MED))
-            {
-            case 1: // med is too small
-                LB = MED + 1;
-                UB = MED;
-                break;
-            case -1: // med is too big
-                UB = MED - 1;
-                break;
-            case 0:
-                return MED;
-                break;
-            }
-            MED = LB + (UB - LB) / 2;
+        case 'I':
+            returnValue = 1;
+            break;
+        case 'V':
+            returnValue = 5;
+            break;
+        case 'X':
+            returnValue = 10;
+            break;
+        case 'L':
+            returnValue = 50;
+            break;
+        case 'C':
+            returnValue = 100;
+            break;
+        case 'D':
+            returnValue = 500;
+            break;
+        case 'M':
+            returnValue = 1000;
+            break;
         }
-        return 0;
+        return returnValue;
+    }
+    int romanToInt(string s)
+    {
+        int total{};
+        int previousValue{};
+        for (char c : s)
+        {
+            int currentValue{getValueFromSymbol(c)};
+            total += currentValue;
+            if (currentValue > previousValue)
+            {
+                total -= 2 * previousValue;
+            }
+            previousValue = currentValue;
+        }
+        return total;
     }
 };
+
 int main()
 {
-    vector<int> flowerbed{1, 0, 0, 0, 1};
-    cout << canPlaceFlowers(flowerbed, 1) << "\n";
+    Solution solution;
+    std::string roman = "MCMXCIV";
+    int result = solution.romanToInt(roman);
+    std::cout << "Roman numeral: " << roman << ", Integer value: " << result << std::endl;
 }
