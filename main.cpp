@@ -2,27 +2,34 @@
 #include <vector>
 #include <cmath>
 using namespace std;
-
-bool canPlaceFlowers(vector<int> &flowerbed, int n)
+int guessVal(int num);
+class Solution
 {
-    auto size{flowerbed.size()};
-    auto streak{0};
-    auto flowersPlanted{0};
-    for (auto i{0uz}; i < size; ++i)
+public:
+    int guessNumber(int n)
     {
-        bool empty{flowerbed[i] == 0};
-        bool leftEmpty{i == 0 || flowerbed[i - 1] == 0};
-        bool rightEmpty{i == size - 1 || flowerbed[i + 1] == 0};
-
-        if (empty && leftEmpty && rightEmpty)
+        int MED{n / 2};
+        int UB{n}, LB{1};
+        while (true)
         {
-            flowerbed[i] = 1;
-            ++flowersPlanted;
+            switch (int x = guessVal(MED))
+            {
+            case 1: // med is too small
+                LB = MED + 1;
+                UB = MED;
+                break;
+            case -1: // med is too big
+                UB = MED - 1;
+                break;
+            case 0:
+                return MED;
+                break;
+            }
+            MED = LB + (UB - LB) / 2;
         }
+        return 0;
     }
-    return flowersPlanted >= n;
-}
-
+};
 int main()
 {
     vector<int> flowerbed{1, 0, 0, 0, 1};
