@@ -3,40 +3,39 @@ using namespace std;
 #include <iostream>
 #include <vector>
 
-class Solution
+bool isValid(string s)
 {
-public:
-    string longestCommonPrefix(vector<string> &strs)
+    vector<char> stack;
+
+    for (char c : s)
     {
-        if (strs.empty())
-            return "";
-
-        auto result{std::min_element(strs.begin(), strs.end(), [](string const &a, string const &b)
-                                     { return a.size() < b.size(); })};
-
-        string prefix = *result;
-        size_t shortestString = prefix.size();
-
-        size_t strCount = strs.size();
-        for (size_t i = 0; i < shortestString; ++i)
+        if (c == '(' || c == '{' || c == '[')
         {
-            for (size_t j = 0; j < strCount; ++j)
+            stack.push_back(c);
+        }
+        else
+        {
+            if (stack.empty())
+                return false;
+
+            char top{stack.back()};
+
+            if ((top == '(' && c == ')') ||
+                (top == '{' && c == '}') ||
+                (top == '[' && c == ']'))
             {
-                if (strs[j][i] != prefix[i])
-                {
-                    prefix.resize(i);
-                    return prefix;
-                }
+                stack.pop_back();
+            }
+            else
+            {
+                return false;
             }
         }
-        return prefix;
     }
-};
+
+    return stack.empty();
+}
 
 int main()
 {
-    Solution solution;
-    vector<string> strs = {"flower", "flow", "flight"};
-    string result = solution.longestCommonPrefix(strs);
-    std::cout << "Longest common prefix: " << result << std::endl;
 }
