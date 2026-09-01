@@ -3,41 +3,28 @@
 #include <cmath>
 using namespace std;
 
-bool isPalindrome(int x)
+bool canPlaceFlowers(vector<int> &flowerbed, int n)
 {
-    if (x < 0)
-        return false;
-
-    int digits{}, temp{x};
-    int division{1};
-
-    while (temp > 1)
+    auto size{flowerbed.size()};
+    auto streak{0};
+    auto flowersPlanted{0};
+    for (auto i{0uz}; i < size; ++i)
     {
-        temp /= 10;
-        division *= 10;
-        digits++;
+        bool empty{flowerbed[i] == 0};
+        bool leftEmpty{i == 0 || flowerbed[i - 1] == 0};
+        bool rightEmpty{i == size - 1 || flowerbed[i + 1] == 0};
+
+        if (empty && leftEmpty && rightEmpty)
+        {
+            flowerbed[i] = 1;
+            ++flowersPlanted;
+        }
     }
-    digits++;
-
-    int numcomparisons = digits / 2;
-    int modulo{10};
-
-    while (true)
-        if ((x % modulo) / (modulo / 10) != (x / division) % 10)
-        {
-            return false;
-        }
-        else
-        {
-        }
-    modulo *= 10;
-    division /= 10;
-}
-
-return true;
+    return flowersPlanted >= n;
 }
 
 int main()
 {
-    cout << isPalindrome(1234321) << "\n";
+    vector<int> flowerbed{1, 0, 0, 0, 1};
+    cout << canPlaceFlowers(flowerbed, 1) << "\n";
 }
