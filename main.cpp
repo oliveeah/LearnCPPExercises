@@ -1,61 +1,42 @@
 #include <string>
 using namespace std;
 #include <iostream>
+#include <vector>
 
 class Solution
 {
 public:
-    auto getValueFromSymbol(char currChar) -> int
+    string longestCommonPrefix(vector<string> &strs)
     {
-        int returnValue{};
-        switch (currChar)
+        if (strs.empty())
+            return "";
+
+        auto result{std::min_element(strs.begin(), strs.end(), [](string const &a, string const &b)
+                                     { return a.size() < b.size(); })};
+
+        string prefix = *result;
+        size_t shortestString = prefix.size();
+
+        size_t strCount = strs.size();
+        for (size_t i = 0; i < shortestString; ++i)
         {
-        case 'I':
-            returnValue = 1;
-            break;
-        case 'V':
-            returnValue = 5;
-            break;
-        case 'X':
-            returnValue = 10;
-            break;
-        case 'L':
-            returnValue = 50;
-            break;
-        case 'C':
-            returnValue = 100;
-            break;
-        case 'D':
-            returnValue = 500;
-            break;
-        case 'M':
-            returnValue = 1000;
-            break;
-        }
-        return returnValue;
-    }
-    int romanToInt(string s)
-    {
-        int total{};
-        int previousValue{};
-        for (char c : s)
-        {
-            int currentValue{getValueFromSymbol(c)};
-            total += currentValue;
-            if (currentValue > previousValue)
+            for (size_t j = 0; j < strCount; ++j)
             {
-                total -= 2 * previousValue;
+                if (strs[j][i] != prefix[i])
+                {
+                    prefix.resize(i);
+                    return prefix;
+                }
             }
-            previousValue = currentValue;
         }
-        return total;
+        return prefix;
     }
 };
 
 int main()
 {
     Solution solution;
-    std::string roman = "MCMXCIV";
-    int result = solution.romanToInt(roman);
-    std::cout << "Roman numeral: " << roman << ", Integer value: " << result << std::endl;
+    vector<string> strs = {"flower", "flow", "flight"};
+    string result = solution.longestCommonPrefix(strs);
+    std::cout << "Longest common prefix: " << result << std::endl;
 }
