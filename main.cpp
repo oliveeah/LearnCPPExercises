@@ -1,11 +1,43 @@
 #include <iostream>
+#include <vector>
+#include <cmath>
+using namespace std;
 
-struct X
+bool isPalindrome(int x)
 {
-    X() { std::cout << "1"; }
-    X(const X &) { std::cout << "3"; }
-    ~X() { std::cout << "2"; }
+    if (x < 0)
+        return false;
 
-    void f() { std::cout << "4"; }
+    int digits{}, temp{x};
+    int division{1};
 
-} object;
+    while (temp > 1)
+    {
+        temp /= 10;
+        division *= 10;
+        digits++;
+    }
+    digits++;
+
+    int numcomparisons = digits / 2;
+    int modulo{10};
+
+    while (true)
+        if ((x % modulo) / (modulo / 10) != (x / division) % 10)
+        {
+            return false;
+        }
+        else
+        {
+        }
+    modulo *= 10;
+    division /= 10;
+}
+
+return true;
+}
+
+int main()
+{
+    cout << isPalindrome(1234321) << "\n";
+}
