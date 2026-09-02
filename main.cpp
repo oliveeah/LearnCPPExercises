@@ -1,41 +1,39 @@
 #include <string>
-using namespace std;
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+using namespace std;
 
-bool isValid(string s)
+class Solution
 {
-    vector<char> stack;
-
-    for (char c : s)
+public:
+    int lengthOfLongestSubstring(string s)
     {
-        if (c == '(' || c == '{' || c == '[')
-        {
-            stack.push_back(c);
-        }
-        else
-        {
-            if (stack.empty())
-                return false;
+        if (s.empty())
+            return 0;
 
-            char top{stack.back()};
+        int longestStreak{};
+        unordered_set<char> charSet{};
 
-            if ((top == '(' && c == ')') ||
-                (top == '{' && c == '}') ||
-                (top == '[' && c == ']'))
+        auto wL{0uz};
+        auto size{s.size()};
+
+        for (auto wR{0uz}; wR < size; ++wR)
+        {
+            while (charSet.contains(s[wR]))
             {
-                stack.pop_back();
+                charSet.erase(s[wL]);
+                ++wL;
             }
-            else
-            {
-                return false;
-            }
+
+            charSet.insert(s[wR]);
+
+            const auto currentStreak{wR - wL + 1};
+
+            if (currentStreak > longestStreak)
+                longestStreak = currentStreak;
         }
+
+        return longestStreak;
     }
-
-    return stack.empty();
-}
-
-int main()
-{
-}
+};
