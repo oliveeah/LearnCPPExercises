@@ -1,39 +1,71 @@
-#include <string>
 #include <iostream>
-#include <vector>
-#include <unordered_set>
 using namespace std;
+struct ListNode
+{
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
 
 class Solution
 {
 public:
-    int lengthOfLongestSubstring(string s)
+    ListNode *mergeTwoLists(ListNode *list1, ListNode *list2)
     {
-        if (s.empty())
-            return 0;
+        if (list1 == nullptr)
+            return list2;
+        if (list2 == nullptr)
+            return list1;
 
-        int longestStreak{};
-        unordered_set<char> charSet{};
+        if (list2 == nullptr && list1 == nullptr)
+            return nullptr;
 
-        auto wL{0uz};
-        auto size{s.size()};
-
-        for (auto wR{0uz}; wR < size; ++wR)
+        ListNode *head = new ListNode();
+        ListNode *current = head;
+        while (list1 != nullptr && list2 != nullptr)
         {
-            while (charSet.contains(s[wR]))
+            if (list1->val < list2->val)
             {
-                charSet.erase(s[wL]);
-                ++wL;
+                current->next = list1;
+                list1 = list1->next;
             }
-
-            charSet.insert(s[wR]);
-
-            const auto currentStreak{wR - wL + 1};
-
-            if (currentStreak > longestStreak)
-                longestStreak = currentStreak;
+            else
+            {
+                current->next = list2;
+                list2 = list2->next;
+            }
+            current = current->next;
         }
-
-        return longestStreak;
+        if (list1 != nullptr)
+        {
+            current->next = list1;
+        }
+        if (list2 != nullptr)
+        {
+            current->next = list2;
+        }
+        return head->next;
     }
 };
+
+int main()
+{
+    ListNode *list1 = new ListNode(1, new ListNode(3, new ListNode(5)));
+    ListNode *list2 = new ListNode(2, new ListNode(4, new ListNode(6)));
+
+    Solution solution;
+    ListNode *mergedList = solution.mergeTwoLists(list1, list2);
+
+    // Print the merged list
+    ListNode *current = mergedList;
+    while (current != nullptr)
+    {
+        cout << current->val << " ";
+        current = current->next;
+    }
+    cout << endl;
+
+    return 0;
+}
