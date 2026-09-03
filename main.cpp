@@ -6,24 +6,33 @@ using namespace std;
 class Solution
 {
 public:
-    int removeDuplicates(vector<int> &nums)
+    int removeElement(vector<int> &nums, int val)
     {
+
         if (nums.empty())
             return 0;
 
-        auto numsSize{nums.size()};
-        auto read_p{1uz};
-        auto write_p{1uz};
-        auto lastNum{nums[0]};
-
-        for (; read_p < numsSize; ++read_p)
-            if (nums[read_p] != lastNum)
+        const auto size{nums.size()};
+        auto write{0uz};
+        auto read{0uz};
+        for (; read < size; ++read)
+        {
+            if (nums[read] != val)
             {
-                nums[write_p] = nums[read_p];
-                lastNum = nums[read_p];
-                ++write_p;
+                nums[write] = nums[read];
+                ++write;
             }
+        }
 
-        return write_p;
+        return static_cast<int>(write);
     }
 };
+
+int main()
+{
+    Solution solution;
+    vector<int> nums{3, 2, 2, 3};
+    int val = 3;
+    int newLength = solution.removeElement(nums, val);
+    std::cout << "New length: " << newLength << std::endl;
+}
