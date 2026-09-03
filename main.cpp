@@ -35,4 +35,6 @@ int main()
     int val = 3;
     int newLength = solution.removeElement(nums, val);
     std::cout << "New length: " << newLength << std::endl;
+    auto *array{new int[5]{5, 4, 3, 2, 1}}; // initializer list
+    delete[] array;                         // free the allocated memory
 }
