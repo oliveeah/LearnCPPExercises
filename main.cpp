@@ -52,7 +52,7 @@ public:
             carry = total / 10;
             total %= 10;
 
-            ListNode *node = new ListNode(total);
+            ListNode *node{new ListNode{total}};
 
             if (!head)
                 head = node;
@@ -63,7 +63,7 @@ public:
         }
 
         if (carry > 0)
-            tail->next = new ListNode(carry);
+            tail->next = new ListNode{carry};
 
         return head;
     }
