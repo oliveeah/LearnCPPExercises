@@ -2,40 +2,38 @@
 #include <vector>
 using namespace std;
 #include <iostream>
-
+#include <numeric>
 class Solution
 {
 public:
-    string mergeAlternately(string word1, string word2)
+    string gcdOfStrings(string str1, string str2)
     {
-        if (word1.empty())
-            return word2;
-        if (word2.empty())
-            return word1;
+        auto gcdSize{gcd(str1.size(), str2.size())};
+        string candidate{str1.substr(0, gcdSize)};
 
-        string result{};
-        auto count{0uz}, word1Size{word1.size()}, word2Size{word2.size()};
-
-        while (count < word1Size || count < word2Size)
+        auto checkCandidate = [gcdSize, candidate](const string &str, size_t repeatCount)
         {
-            if (count < word1Size)
+            for (auto i{0uz}; i < repeatCount; ++i)
             {
-                result.push_back(word1[count]);
+                if (str.substr(i * gcdSize, gcdSize) != candidate)
+                    return false;
             }
-            if (count < word2Size)
-            {
-                result.push_back(word2[count]);
-            }
-            ++count;
-        }
-        return result;
+            return true;
+        };
+
+        if (!checkCandidate(str1, str1.size() / gcdSize))
+            return "";
+
+        if (!checkCandidate(str2, str2.size() / gcdSize))
+            return "";
+
+        return candidate;
     }
 };
-
 int main()
 {
     Solution solution;
-    string word1{"ab"}, word2{"pqrs"};
-    string result{solution.mergeAlternately(word1, word2)};
-    cout << result << endl;
+    string str1{"ABAB"}, str2{"ABABAB"};
+    cout << solution.gcdOfStrings(str1, str2) << endl;
+    return 0;
 }
