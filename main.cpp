@@ -3,37 +3,32 @@
 using namespace std;
 #include <iostream>
 #include <numeric>
+
 class Solution
 {
 public:
-    string gcdOfStrings(string str1, string str2)
+    bool isSubsequence(string s, string t)
     {
-        auto gcdSize{gcd(str1.size(), str2.size())};
-        string candidate{str1.substr(0, gcdSize)};
-
-        auto checkCandidate = [gcdSize, candidate](const string &str, size_t repeatCount)
+        auto s_p{0uz}, t_p{0uz};
+        for (; t_p < t.size(); ++t_p)
         {
-            for (auto i{0uz}; i < repeatCount; ++i)
+            if (t[t_p] == s[s_p])
             {
-                if (str.substr(i * gcdSize, gcdSize) != candidate)
-                    return false;
+                ++s_p;
+                if (s_p >= s.size())
+                {
+                    return true;
+                }
             }
-            return true;
-        };
-
-        if (!checkCandidate(str1, str1.size() / gcdSize))
-            return "";
-
-        if (!checkCandidate(str2, str2.size() / gcdSize))
-            return "";
-
-        return candidate;
+        }
+        return false;
     }
 };
+
 int main()
 {
     Solution solution;
-    string str1{"ABAB"}, str2{"ABABAB"};
-    cout << solution.gcdOfStrings(str1, str2) << endl;
+    bool i = solution.isSubsequence(string{"axc"}, string{"ahbgdc"});
+    std::cout << boolalpha << i << std::endl;
     return 0;
 }
